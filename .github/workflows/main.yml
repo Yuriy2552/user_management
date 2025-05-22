@@ -34,7 +34,7 @@ jobs:
         restore-keys: |
           poetry-venv-${{ runner.os }}-
 
-    - name: Install dependencies with Poetry
+    - name: Install dev dependencies
       run: |
         poetry install --no-root
       working-directory: ${{ github.workspace }}
@@ -46,5 +46,5 @@ jobs:
 
     - name: Run tests
       run: |
-        poetry run pytest
+        PYTHONPATH=. poetry run pytest
       working-directory: ${{ github.workspace }}
