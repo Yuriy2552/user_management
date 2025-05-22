@@ -21,6 +21,7 @@ yagmail = "^0.15.293"
 fastapi-users-db-sqlalchemy = "^7.0.0"
 pydantic-settings = "^2.9.1"
 httpx = "^0.28.1"
+aiosqlite = "^0.21.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0"
