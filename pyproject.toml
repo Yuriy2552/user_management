@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "test-project"
+version = "0.1.0"
+description = ""
+authors = ["Uriy <savinu014@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.12"
+uvicorn = "^0.34.0"
+sqlalchemy = "^2.0.40"
+asyncpg = "^0.30.0"
+fastapi-users = "^14.0.1"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = {extras = ["cryptography"], version = "^3.4.0"}
+alembic = "^1.15.2"
+psycopg2-binary = "^2.9.10"
+requests = "^2.32.3"
+yagmail = "^0.15.293"
+fastapi-users-db-sqlalchemy = "^7.0.0"
+pydantic-settings = "^2.9.1"
+httpx = "^0.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
