@@ -29,14 +29,14 @@ jobs:
     - name: Install dependencies with Poetry
       run: |
         poetry install --no-root
-      working-directory: ${{ github.workspace }}/..
+      working-directory: ${{ github.workspace }}
 
     - name: Check installed dependencies
       run: |
         poetry show
-      working-directory: ${{ github.workspace }}/..
+      working-directory: ${{ github.workspace }}
 
     - name: Run tests
       run: |
         poetry run pytest
-      working-directory: ${{ github.workspace }}/..
+      working-directory: ${{ github.workspace }}
