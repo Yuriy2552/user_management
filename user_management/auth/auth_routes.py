@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from user_management.dependencies import get_db
-from user_management.auth.security import create_access_token, verify_password
+from user_management.auth.auth import create_access_token  # заменяем импорт
+from user_management.auth.security import verify_password
 from user_management.models.user import User
 from sqlalchemy.future import select
 from user_management.auth.manager import create_user
@@ -28,7 +29,8 @@ async def login_for_access_token(
             detail="Неверный email или пароль",
         )
 
-    access_token = create_access_token(data={"sub": user.email})
+    # sub должен быть строкой!
+    access_token = create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/register", summary="Регистрация нового пользователя")

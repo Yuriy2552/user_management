@@ -38,6 +38,8 @@ fastapi_users = FastAPIUsers[User, int](
 
 # Маршруты FastAPI Users
 async def get_current_user(request: Request, user_manager=Depends(get_user_manager)):
+    # Логирование всех cookies
+    logger.debug(f"Cookies в запросе: {request.cookies}")
     token = request.cookies.get("bonds")
     logger.debug("Токен из куков: %s", token)
     if not token:
@@ -59,7 +61,8 @@ async def get_current_user(request: Request, user_manager=Depends(get_user_manag
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="ID пользователя отсутствует в токене"
         )
-    user = await user_manager.get_user_by_id(user_id)
+    # sub всегда строка, приводим к int
+    user = await user_manager.get_user_by_id(int(user_id))
     logger.debug("Извлеченный пользователь: %s", user)
     if not user:
         raise HTTPException(
