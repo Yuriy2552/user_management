@@ -1,28 +1,28 @@
 import pytest
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
 from user_management.main import app
 
-def test_create_weather():
-    client = TestClient(app)
-    response = client.post("/weather/", json={
-        "city": "Test City",
-        "temperature": 25.5,
-        "humidity": 60,
-        "description": "Sunny"
-    })
+@pytest.mark.asyncio
+async def test_create_weather():
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        response = await ac.post("/weather/", json={
+            "city": "Test City",
+            "temperature": 25.5,
+            "humidity": 60,
+            "description": "Sunny"
+        })
     assert response.status_code == 200
     assert response.json()["city"] == "Test City"
 
-def test_get_weather():
-    client = TestClient(app)
-    # Create a weather entry first
-    client.post("/weather/", json={
-        "city": "Test City",
-        "temperature": 25.5,
-        "humidity": 60,
-        "description": "Sunny"
-    })
-    # Fetch the weather entry
-    response = client.get("/weather/Test City")
+@pytest.mark.asyncio
+async def test_get_weather():
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        await ac.post("/weather/", json={
+            "city": "Test City",
+            "temperature": 25.5,
+            "humidity": 60,
+            "description": "Sunny"
+        })
+        response = await ac.get("/weather/Test City")
     assert response.status_code == 200
     assert response.json()["city"] == "Test City"
