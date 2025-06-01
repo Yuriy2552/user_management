@@ -13,3 +13,6 @@ sql_app.db
 
 # Временные файлы
 cookies.txt
+
+# .env уже должен быть в .gitignore, чтобы не попадал в репозиторий
+user_management/external_weather.py

@@ -6,6 +6,7 @@ from user_management.config import settings
 from user_management.dependencies import init_logging, init_database
 from user_management.routers import user_router, weather_router, router
 from user_management.auth.auth_routes import router as auth_router
+from user_management.external_weather import router as external_weather_router
 
 # Инициализация логирования
 logger = init_logging()
@@ -31,6 +32,7 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(weather_router, prefix="/weather", tags=["Weather"])
 app.include_router(router)
+app.include_router(external_weather_router, prefix="/api", tags=["External Weather"])
 
 # Добавление тестового маршрута
 @app.get("/test", summary="Тестовый маршрут")

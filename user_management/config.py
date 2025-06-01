@@ -9,6 +9,7 @@ class Settings(BaseSettings):
 
     # Настройки базы данных
     DATABASE_URL: str = "sqlite+aiosqlite:///./sql_app.db"
+    SQL_DATABASE_URL: str = "sqlite+aiosqlite:///./sql_app.db"
 
     # Настройки безопасности
     SECRET_KEY: str = os.getenv("SECRET_KEY", "supersecretkey")
@@ -17,6 +18,9 @@ class Settings(BaseSettings):
 
     # Настройки CORS
     ALLOWED_ORIGINS: list[str] = ["*"]
+
+    # Настройки OpenWeather
+    OPENWEATHER_API_KEY: str = os.getenv("OPENWEATHER_API_KEY", "")
 
     # Динамическое определение базы данных в зависимости от окружения
     @property
@@ -27,6 +31,6 @@ class Settings(BaseSettings):
         return self.SQL_DATABASE_URL
 
     class Config:
-        env_file = ".env"
+        env_file = "user_management/.env"
 
 settings = Settings()
