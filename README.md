@@ -62,6 +62,12 @@
 poetry run pytest
 ```
 
+**Для запуска тестов с SQLite (без PostgreSQL):**
+
+```bash
+TESTING=1 poetry run pytest
+```
+
 Тесты автоматически запускаются при каждом push или pull request через GitHub Actions.
 
 ---
