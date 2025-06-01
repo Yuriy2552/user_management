@@ -11,7 +11,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test_user -d test_db" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
@@ -43,14 +53,6 @@ jobs:
       run: |
         poetry show
       working-directory: ${{ github.workspace }}
-
-    - name: Set up PostgreSQL
-      uses: Harmon758/postgresql-action@v2
-      with:
-        postgresql version: '13'
-        db name: 'test_db'
-        username: 'test_user'
-        password: 'test_password'
 
     - name: Run database migrations (if applicable)
       env:
