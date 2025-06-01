@@ -33,3 +33,19 @@ def create_test_db():
     #     async with engine.begin() as conn:
     #         await conn.run_sync(Base.metadata.drop_all)
     # asyncio.get_event_loop().run_until_complete(drop_all())
+
+@pytest.fixture()
+async def db_session():
+    if os.environ.get("TESTING") == "1":
+        db_url = settings.SQL_DATABASE_URL
+    else:
+        db_url = settings.DATABASE_URL
+    engine = create_async_engine(db_url, future=True)
+    async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    async with async_session_maker() as session:
+        trans = await session.begin()
+        try:
+            yield session
+        finally:
+            await trans.rollback()
+            await session.close()
