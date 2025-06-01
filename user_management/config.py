@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     # Настройки базы данных
     DATABASE_URL: str = "sqlite+aiosqlite:///./sql_app.db"
-    SQL_DATABASE_URL: str = "sqlite+aiosqlite:///./sql_app.db"
+    SQL_DATABASE_URL: str = os.getenv("SQL_DATABASE_URL", "sqlite+aiosqlite:///./sql_app.db")
 
     # Настройки безопасности
     SECRET_KEY: str = os.getenv("SECRET_KEY", "supersecretkey")
@@ -28,7 +28,7 @@ class Settings(BaseSettings):
         env = os.getenv("ENV", "development")
         if env == "production":
             return self.DATABASE_URL
-        return self.SQL_DATABASE_URL
+        return self.DATABASE_URL
 
     class Config:
         env_file = "user_management/.env"
