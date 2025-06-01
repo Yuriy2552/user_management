@@ -44,7 +44,24 @@ jobs:
         poetry show
       working-directory: ${{ github.workspace }}
 
+    - name: Set up PostgreSQL
+      uses: Harmon758/postgresql-action@v2
+      with:
+        postgresql version: '13'
+        db name: 'test_db'
+        username: 'test_user'
+        password: 'test_password'
+
+    - name: Run database migrations (if applicable)
+      env:
+        DATABASE_URL: postgresql+asyncpg://test_user:test_password@localhost:5432/test_db
+      run: |
+        poetry run alembic upgrade head
+      working-directory: ${{ github.workspace }}
+
     - name: Run tests
+      env:
+        DATABASE_URL: postgresql+asyncpg://test_user:test_password@localhost:5432/test_db
       run: |
         PYTHONPATH=. poetry run pytest
       working-directory: ${{ github.workspace }}
